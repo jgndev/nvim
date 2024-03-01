@@ -103,12 +103,12 @@ require("lazy").setup {
           return vim.fn.executable "make" == 1
         end,
       },
-      { "nvim-telescope/telescope-ui-select.nvim" },
-
-      -- Useful for getting pretty icons, but requires special font.
-      --  If you already have a Nerd Font, or terminal set up with fallback fonts
-      --  you can enable this
-      -- { 'nvim-tree/nvim-web-devicons' }
+      {
+        "nvim-telescope/telescope-ui-select.nvim",
+      },
+      {
+        "nvim-tree/nvim-web-devicons",
+      },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -169,20 +169,6 @@ require("lazy").setup {
           previewer = false,
         })
       end, { desc = "Fuzzy search current buffer" })
-
-      -- Also possible to pass additional configuration options.
-      --  See `:help telescope.builtin.live_grep()` for information about particular keys
-      -- vim.keymap.set('n', '<leader>s/', function()
-      --   builtin.live_grep {
-      --     grep_open_files = true,
-      --     prompt_title = 'Live Grep in Open Files',
-      --   }
-      -- end, { desc = '[S]earch [/] in Open Files' })
-
-      -- Shortcut for searching your neovim configuration files
-      -- vim.keymap.set('n', '<leader>sn', function()
-      --   builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      -- end, { desc = '[S]earch [N]eovim files' })
     end,
   },
 
@@ -325,7 +311,42 @@ require("lazy").setup {
         dockerls = {},
         emmet_ls = {},
         eslint = {},
-        gopls = {},
+        gopls = {
+          settings = {
+            gofumpt = true,
+            codelenses = {
+              gc_details = false,
+              generate = true,
+              regenerate_cgo = true,
+              run_govulncheck = true,
+              test = true,
+              tidy = true,
+              upgrade_dependency = true,
+              vendor = true,
+            },
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+            analyses = {
+              fieldalignment = true,
+              nilness = true,
+              unusedparams = true,
+              unusedwrite = true,
+              useany = true,
+            },
+            usePlaceholders = true,
+            completeUnimported = true,
+            staticcheck = true,
+            directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+            semanticTokens = true,
+          },
+        },
         goimports = {},
         gofumpt = {},
         hydra_lsp = {},
@@ -334,7 +355,31 @@ require("lazy").setup {
         marksman = {},
         pyright = {},
         ruff_lsp = {},
-        rust_analyzer = {},
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                runBuildScripts = true,
+              },
+              -- Add clippy lints for Rust.
+              checkOnSave = {
+                allFeatures = true,
+                command = "clippy",
+                extraArgs = { "--no-deps" },
+              },
+              procMacro = {
+                enable = true,
+                ignored = {
+                  ["async-trait"] = { "async_trait" },
+                  ["napi-derive"] = { "napi" },
+                  ["async-recursion"] = { "async_recursion" },
+                },
+              },
+            },
+          },
+        },
         sqls = {},
         tailwindcss = {},
         taplo = {},
@@ -434,6 +479,29 @@ require("lazy").setup {
     end,
   },
 
+  {
+    "nvimtools/none-ls.nvim",
+    optional = true,
+    dependencies = {
+      {
+        "williamboman/mason.nvim",
+        opts = function(_, opts)
+          opts.ensure_installed = opts.ensure_installed or {}
+          vim.list_extend(opts.ensure_installed, { "gomodifytags", "impl" })
+        end,
+      },
+    },
+    opts = function(_, opts)
+      local nls = require "null-ls"
+      opts.sources = vim.list_extend(opts.sources or {}, {
+        nls.builtins.code_actions.gomodifytags,
+        nls.builtins.code_actions.impl,
+        nls.builtins.formatting.goimports,
+        nls.builtins.formatting.gofumpt,
+      })
+    end,
+  },
+
   -- Formatting
   {
     "stevearc/conform.nvim",
@@ -452,6 +520,41 @@ require("lazy").setup {
         ["terrform-vars"] = { "terrform_fmt" },
         sh = { "shfmt" },
         javascript = { "prettier" },
+      },
+    },
+  },
+
+  -- DAP
+  {
+    "mfussenegger/nvim-dap",
+    optional = true,
+    dependencies = {
+      {
+        "williamboman/mason.nvim",
+        opts = function(_, opts)
+          opts.ensure_installed = opts.ensure_installed or {}
+          vim.list_extend(opts.ensure_installed, { "delve", "codelldb" })
+        end,
+      },
+      {
+        "leoluz/nvim-dap-go",
+        config = true,
+      },
+    },
+  },
+
+  -- Testing
+  {
+    "nvim-neotest/neotest",
+    optional = true,
+    dependencies = {
+      "nvim-neotest/neotest-go",
+      "rouge8/neotest-rust",
+    },
+    opts = {
+      adapters = {
+        ["neotest-go"] = {},
+        ["neotest-rust"] = {},
       },
     },
   },
@@ -631,7 +734,7 @@ require("lazy").setup {
     end,
   },
 
-  -- Cllection of various small independent plugins/modules
+  -- Collection of various small independent plugins/modules
   {
     "echasnovski/mini.nvim",
     config = function()
@@ -658,6 +761,7 @@ require("lazy").setup {
           "gitignore",
           "go",
           "gomod",
+          "gowork",
           "gosum",
           "html",
           "javascript",
@@ -670,6 +774,7 @@ require("lazy").setup {
           "markdown_inline",
           "python",
           "regex",
+          "ron",
           "rust",
           "sql",
           "scss",
@@ -773,26 +878,6 @@ require("lazy").setup {
     version = "^4",
     ft = { "rust" },
   },
-
-  -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
-  -- init.lua. If you want these files, they are in the repository, so you can just download them and
-  -- put them in the right spots if you want.
-
-  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for kickstart
-  --
-  --  Here are some example plugins that I've included in the kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-  --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    This is the easiest way to modularize your config.
-  --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --    For additional information see: :help lazy.nvim-lazy.nvim-structuring-your-plugins
-  -- { import = 'custom.plugins' },
 }
 
--- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
