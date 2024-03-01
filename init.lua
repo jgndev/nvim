@@ -774,25 +774,6 @@ require("lazy").setup {
     ft = { "rust" },
   },
 
-  -- Obsidian
-  {
-    "epwalsh/obsidian.nvim",
-    version = "*",
-    lazy = true,
-    ft = "markdown",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    opts = {
-      workspaces = {
-        {
-          name = "notebook",
-          path = "~/projects/notebook",
-        },
-      },
-    },
-  },
-
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- put them in the right spots if you want.
