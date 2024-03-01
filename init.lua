@@ -820,19 +820,61 @@ require("lazy").setup {
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
-      local statusline = require "mini.statusline"
-      statusline.setup()
+      -- local statusline = require "mini.statusline"
+      -- statusline.setup()
 
       -- You can confiure sections in the statusline by overriding their
       -- default behavior. For example, here we disable the section for
       -- cursor information because line numbers are already enabled
       ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return ""
-      end
+      -- statusline.section_location = function()
+      --   return ""
+      -- end
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+    end,
+  },
+
+  -- Status line
+  {
+    "sontungexpt/sttusline",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    event = { "BufEnter" },
+    config = function(_, opts)
+      require("sttusline").setup {
+        -- statusline_color = "#000000",
+        statusline_color = "StatusLine",
+
+        -- | 1 | 2 | 3
+        -- recommended: 3
+        laststatus = 3,
+        disabled = {
+          filetypes = {
+            -- "NvimTree",
+            -- "lazy",
+          },
+          buftypes = {
+            -- "terminal",
+          },
+        },
+        components = {
+          "mode",
+          "filename",
+          "git-branch",
+          "git-diff",
+          "%=",
+          "diagnostics",
+          "lsps-formatters",
+          "copilot",
+          "indent",
+          "encoding",
+          "pos-cursor",
+          "pos-cursor-progress",
+        },
+      }
     end,
   },
 
