@@ -154,10 +154,10 @@ vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+-- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
+-- vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
+-- vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+-- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Toggle Trouble
 vim.keymap.set("n", "<leader>t", "<cmd>Trouble document_diagnostics<cr>", { desc = "Trouble" })
@@ -370,7 +370,7 @@ require("lazy").setup {
       vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find Buffers" })
 
       -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set("n", "<leader>/", function()
+      vim.keymap.set("n", "<leader>fs", function()
         -- You can pass additional configuration to telescope to change theme, layout, etc.
         builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown {
           winblend = 10,
@@ -791,55 +791,30 @@ require("lazy").setup {
     opts = { signs = false },
   },
 
+  -- Comments
+  {
+    "numToStr/Comment.nvim",
+    lazy = false,
+    config = function()
+      require("Comment").setup()
+    end,
+  },
+
+  -- Statusline
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lualine").setup {}
+    end,
+  },
+
   -- Cllection of various small independent plugins/modules
   {
     "echasnovski/mini.nvim",
     config = function()
-      require("mini.surround").setup()
       require("mini.pairs").setup()
       require("mini.starter").setup()
-    end,
-  },
-
-  -- Status line
-  {
-    "sontungexpt/sttusline",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    event = { "BufEnter" },
-    config = function(_, opts)
-      require("sttusline").setup {
-        -- statusline_color = "#000000",
-        statusline_color = "StatusLine",
-
-        -- | 1 | 2 | 3
-        -- recommended: 3
-        laststatus = 3,
-        disabled = {
-          filetypes = {
-            -- "NvimTree",
-            -- "lazy",
-          },
-          buftypes = {
-            -- "terminal",
-          },
-        },
-        components = {
-          "mode",
-          "filename",
-          "git-branch",
-          "git-diff",
-          "%=",
-          "diagnostics",
-          "lsps-formatters",
-          "copilot",
-          "indent",
-          "encoding",
-          "pos-cursor",
-          "pos-cursor-progress",
-        },
-      }
     end,
   },
 
@@ -899,13 +874,6 @@ require("lazy").setup {
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
-  },
-
-  -- Comments
-  {
-    "numToStr/Comment.nvim",
-    opts = {},
-    lazy = false,
   },
 
   -- Git Signs
