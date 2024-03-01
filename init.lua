@@ -21,6 +21,9 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
+-- Do not save a swap file
+vim.opt.swapfile = false
+
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -600,7 +603,6 @@ require("lazy").setup {
     "echasnovski/mini.nvim",
     config = function()
       require("mini.pairs").setup()
-      require("mini.starter").setup()
     end,
   },
 
