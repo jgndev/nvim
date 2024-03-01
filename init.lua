@@ -274,22 +274,22 @@ require("lazy").setup {
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy", -- Sets the loading event to 'VeryLazy'
-    config = function() -- This is the function that runs, AFTER loading
-      require("which-key").setup()
-
-      -- Document existing key chains
-      require("which-key").register {
-        ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-        ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-        ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-        ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-        ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-      }
-    end,
-  },
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy", -- Sets the loading event to 'VeryLazy'
+  --   config = function() -- This is the function that runs, AFTER loading
+  --     require("which-key").setup()
+  --
+  --     -- Document existing key chains
+  --     require("which-key").register {
+  --       ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
+  --       ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
+  --       ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
+  --       ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
+  --       ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
+  --     }
+  --   end,
+  -- },
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -298,7 +298,8 @@ require("lazy").setup {
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
-  { -- Fuzzy Finder (files, lsp, etc)
+  -- Telescope
+  {
     "nvim-telescope/telescope.nvim",
     event = "VeryLazy",
     branch = "0.1.x",
@@ -401,7 +402,8 @@ require("lazy").setup {
     end,
   },
 
-  { -- LSP Configuration & Plugins
+  -- LSP
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for neovim
@@ -651,7 +653,8 @@ require("lazy").setup {
     end,
   },
 
-  { -- Autoformat
+  -- Formatting
+  {
     "stevearc/conform.nvim",
     opts = {
       notify_on_error = false,
@@ -678,7 +681,8 @@ require("lazy").setup {
     },
   },
 
-  { -- Autocompletion
+  -- Completion
+  {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
@@ -771,7 +775,7 @@ require("lazy").setup {
     end,
   },
 
-  -- Kanagaw colorscheme
+  -- Colorscheme
   {
     "rebelot/kanagawa.nvim",
     lazy = false,
@@ -792,10 +796,17 @@ require("lazy").setup {
     end,
   },
 
-  -- Highlight todo, notes, etc in comments
-  { "folke/todo-comments.nvim", dependencies = { "nvim-lua/plenary.nvim" }, opts = { signs = false } },
+  -- Todo Commnents
+  {
+    "folke/todo-comments.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = { signs = false },
+  },
 
-  { -- Collection of various small independent plugins/modules
+  -- Cllection of various small independent plugins/modules
+  {
     "echasnovski/mini.nvim",
     config = function()
       -- Better Around/Inside textobjects
@@ -878,7 +889,8 @@ require("lazy").setup {
     end,
   },
 
-  { -- Highlight, edit, and navigate code
+  -- Treesitter
+  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
@@ -992,7 +1004,7 @@ require("lazy").setup {
   -- Go
   {
     "ray-x/go.nvim",
-    dependencies = { -- optional packages
+    dependencies = {
       "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
@@ -1008,7 +1020,7 @@ require("lazy").setup {
   -- Rust
   {
     "mrcjkb/rustaceanvim",
-    version = "^4", -- Recommended
+    version = "^4",
     ft = { "rust" },
   },
 
