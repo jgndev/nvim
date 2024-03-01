@@ -901,7 +901,7 @@ require("lazy").setup {
     end,
   },
 
-  -- Commenting
+  -- Comments
   {
     "numToStr/Comment.nvim",
     opts = {},
