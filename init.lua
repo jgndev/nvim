@@ -98,9 +98,6 @@ vim.g.maplocalleader = " "
 -- Make line numbers default
 vim.opt.number = true
 vim.opt.relativenumber = true
--- You can also add relative line numbers, for help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
@@ -109,8 +106,6 @@ vim.opt.mouse = "a"
 vim.opt.showmode = false
 
 -- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.opt.clipboard = "unnamedplus"
 
 -- Enable break indent
@@ -228,9 +223,6 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup {
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
-
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -671,12 +663,6 @@ require("lazy").setup {
         ["terrform-vars"] = { "terrform_fmt" },
         sh = { "shfmt" },
         javascript = { "prettier" },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
       },
     },
   },
@@ -809,41 +795,9 @@ require("lazy").setup {
   {
     "echasnovski/mini.nvim",
     config = function()
-      -- Better Around/Inside textobjects
-      --
-      -- Examples:
-      --  - va)  - [V]isually select [A]round [)]parenthen
-      --  - yinq - [Y]ank [I]nside [N]ext [']quote
-      --  - ci'  - [C]hange [I]nside [']quote
-      require("mini.ai").setup { n_lines = 500 }
-
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
       require("mini.surround").setup()
-
       require("mini.pairs").setup()
-      require("mini.comment").setup()
       require("mini.starter").setup()
-
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      -- local statusline = require "mini.statusline"
-      -- statusline.setup()
-
-      -- You can confiure sections in the statusline by overriding their
-      -- default behavior. For example, here we disable the section for
-      -- cursor information because line numbers are already enabled
-      ---@diagnostic disable-next-line: duplicate-set-field
-      -- statusline.section_location = function()
-      --   return ""
-      -- end
-
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
 
@@ -945,6 +899,13 @@ require("lazy").setup {
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
+  },
+
+  -- Commenting
+  {
+    "numToStr/Comment.nvim",
+    opts = {},
+    lazy = false,
   },
 
   -- Git Signs
