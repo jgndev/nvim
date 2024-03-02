@@ -155,7 +155,7 @@ require("lazy").setup {
 
       -- See `:help telescope.builtin`
       local builtin = require "telescope.builtin"
-      vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find [F]iles" })
+      vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
       vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Search Diagnotics" })
       vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Find Recent Files" })
@@ -170,6 +170,29 @@ require("lazy").setup {
         })
       end, { desc = "Fuzzy search current buffer" })
     end,
+  },
+
+  -- Noice
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = true,
+      },
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    },
   },
 
   -- LSP
