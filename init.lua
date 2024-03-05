@@ -202,6 +202,31 @@ require("lazy").setup {
     },
   },
 
+  -- Neodev
+  {
+    "folke/neodev.nvim",
+    opts = {},
+  },
+
+  -- Todo Commnents
+  {
+    "folke/todo-comments.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = { signs = false },
+  },
+
+  -- Trouble
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {},
+    config = function()
+      require("trouble").setup()
+    end,
+  },
+
   -- LSP
   {
     "neovim/nvim-lspconfig",
@@ -711,15 +736,6 @@ require("lazy").setup {
     end,
   },
 
-  -- Todo Commnents
-  {
-    "folke/todo-comments.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    opts = { signs = false },
-  },
-
   -- Comments
   {
     "numToStr/Comment.nvim",
@@ -761,7 +777,6 @@ require("lazy").setup {
           "%=",
           "diagnostics",
           "lsps-formatters",
-          "copilot",
           "indent",
           "encoding",
           "pos-cursor",
@@ -883,16 +898,6 @@ require("lazy").setup {
     },
     config = function()
       vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Toggle LazyGit" })
-    end,
-  },
-
-  -- Trouble
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {},
-    config = function()
-      require("trouble").setup()
     end,
   },
 
