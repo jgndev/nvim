@@ -6,6 +6,12 @@ vim.g.maplocalleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- Tabs or spaces
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 
@@ -31,6 +37,7 @@ vim.opt.smartcase = true
 -- Keep signcolumn on by default
 vim.opt.signcolumn = "yes"
 
+-- Visual indicator of column length
 vim.opt.colorcolumn = "80"
 
 -- Decrease update time
@@ -877,6 +884,9 @@ require("lazy").setup {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
+    config = function()
+      require("trouble").setup()
+    end,
   },
 
   -- Go
