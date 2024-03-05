@@ -26,6 +26,7 @@ vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
+vim.opt.undolevels = 10000
 
 -- Do not save a swap file
 vim.opt.swapfile = false
@@ -40,9 +41,12 @@ vim.opt.signcolumn = "yes"
 -- Visual indicator of column length
 vim.opt.colorcolumn = "80"
 
+-- True color support
+vim.opt.termguicolors = true
+
 -- Decrease update time
 vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 500
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -60,6 +64,7 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 8
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -733,6 +738,16 @@ require("lazy").setup {
         },
       }
       vim.cmd.colorscheme "kanagawa-wave"
+    end,
+  },
+
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    opts = {},
+    config = function()
+      -- vim.cmd.colorscheme "catppuccin-mocha"
     end,
   },
 
