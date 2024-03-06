@@ -2,7 +2,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Make line numbers default
+-- Make relative line numbers default
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -51,10 +51,6 @@ vim.opt.timeoutlen = 500
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-
--- Sets how neovim will display certain whitespace in the editor.
---vim.opt.list = true
---vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = "split"
