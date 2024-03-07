@@ -560,6 +560,9 @@ require("lazy").setup {
         nls.builtins.code_actions.impl,
         nls.builtins.formatting.goimports,
         nls.builtins.formatting.gofumpt,
+        nls.builtins.formatting.terraform_fmt,
+        nls.builtins.diagnostics.terraform_validate,
+        nls.builtins.diagnostics.hadolint,
       })
     end,
   },
@@ -580,7 +583,8 @@ require("lazy").setup {
         terraform = { "terraform_fmt" },
         tf = { "terraform_fmt" },
         ["terrform-vars"] = { "terrform_fmt" },
-        sh = { "shfmt" },
+        toml = { "taplo" },
+        sh = { "shellcheck", "shfmt" },
         javascript = { "prettier" },
       },
     },
@@ -601,6 +605,19 @@ require("lazy").setup {
       {
         "leoluz/nvim-dap-go",
         config = true,
+      },
+    },
+  },
+
+  -- nvim-lint
+  {
+    "mfussenegger/nvim-lint",
+    optional = true,
+    opts = {
+      linters_by_ft = {
+        terraform = { "terraform_validate" },
+        tf = { "terraform_validate" },
+        dockerfile = { "hadolint" },
       },
     },
   },
@@ -812,18 +829,24 @@ require("lazy").setup {
       ---@diagnostic disable-next-line: missing-fields
       require("nvim-treesitter.configs").setup {
         ensure_installed = {
+          "ansible-lint",
           "bash",
           "c",
           "cmake",
+          "codelldb",
           "css",
           "csv",
+          "delve",
           "dockerfile",
           "gitignore",
           "go",
           "gomod",
+          "gomodifytags",
           "gowork",
           "gosum",
+          "hcl",
           "html",
+          "impl",
           "javascript",
           "jq",
           "json",
@@ -921,8 +944,76 @@ require("lazy").setup {
   -- Rust
   {
     "mrcjkb/rustaceanvim",
-    version = "^4",
+    version = "^4", -- Recommended
     ft = { "rust" },
+    opts = {
+      server = {
+        on_attach = function(_, bufnr)
+          vim.keymap.set("n", "<leader>cR", function()
+            vim.cmd.RustLsp "codeAction"
+          end, { desc = "Code Action", buffer = bufnr })
+          vim.keymap.set("n", "<leader>dr", function()
+            vim.cmd.RustLsp "debuggables"
+          end, { desc = "Rust debuggables", buffer = bufnr })
+        end,
+        default_settings = {
+          -- rust-analyzer language server configuration
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+              loadOutDirsFromCheck = true,
+              runBuildScripts = true,
+            },
+            -- Add clippy lints for Rust.
+            checkOnSave = {
+              allFeatures = true,
+              command = "clippy",
+              extraArgs = { "--no-deps" },
+            },
+            procMacro = {
+              enable = true,
+              ignored = {
+                ["async-trait"] = { "async_trait" },
+                ["napi-derive"] = { "napi" },
+                ["async-recursion"] = { "async_recursion" },
+              },
+            },
+          },
+        },
+      },
+    },
+    config = function(_, opts)
+      vim.g.rustaceanvim = vim.tbl_deep_extend("force", {}, opts or {})
+    end,
+  },
+
+  {
+    "Saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    opts = {
+      src = {
+        cmp = { enabled = true },
+      },
+    },
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      {
+        "Saecki/crates.nvim",
+        event = { "BufRead Cargo.toml" },
+        opts = {
+          src = {
+            cmp = { enabled = true },
+          },
+        },
+      },
+    },
+    opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      table.insert(opts.sources, { name = "crates" })
+    end,
   },
 }
 
