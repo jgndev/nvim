@@ -221,7 +221,7 @@ require("lazy").setup {
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {},
+    opts = { use_diagnostic_signs = true },
     config = function()
       require("trouble").setup()
     end,
@@ -818,6 +818,7 @@ require("lazy").setup {
     "echasnovski/mini.nvim",
     config = function()
       require("mini.pairs").setup()
+      -- require("mini.statusline").setup()
     end,
   },
 
