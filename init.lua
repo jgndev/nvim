@@ -167,6 +167,7 @@ require("lazy").setup {
       vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Search Diagnotics" })
       vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Find Recent Files" })
       vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find Buffers" })
+      vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Search Help" })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set("n", "<leader>fs", function()
