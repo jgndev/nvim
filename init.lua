@@ -71,6 +71,9 @@ vim.keymap.set("n", "<leader>t", "<cmd>Trouble document_diagnostics<cr>", { desc
 -- Quit All
 vim.keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 
+-- Save file
+vim.keymap.set({ "i", "x", "n", "s" }, "<leader>w", "<Esc>:w<cr>", { desc = "Save File" })
+
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
