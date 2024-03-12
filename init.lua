@@ -72,7 +72,7 @@ vim.keymap.set("n", "<leader>t", "<cmd>Trouble document_diagnostics<cr>", { desc
 vim.keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 
 -- Save file
-vim.keymap.set({ "i", "x", "n", "s" }, "<leader>w", "<Esc>:w<cr>", { desc = "Save File" })
+vim.keymap.set("n", "<leader>w", "<cmd>:w<cr>", { desc = "Save File" })
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -776,53 +776,25 @@ require("lazy").setup {
     end,
   },
 
-  -- Statusline
-  {
-    "sontungexpt/sttusline",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    event = { "BufEnter" },
-    config = function(_, opts)
-      require("sttusline").setup {
-        -- statusline_color = "#000000",
-        statusline_color = "StatusLine",
-
-        -- | 1 | 2 | 3
-        -- recommended: 3
-        laststatus = 3,
-        disabled = {
-          filetypes = {
-            -- "NvimTree",
-            -- "lazy",
-          },
-          buftypes = {
-            -- "terminal",
-          },
-        },
-        components = {
-          "mode",
-          "filename",
-          "git-branch",
-          "git-diff",
-          "%=",
-          "diagnostics",
-          "lsps-formatters",
-          "indent",
-          "encoding",
-          "pos-cursor",
-          "pos-cursor-progress",
-        },
-      }
-    end,
-  },
-
   -- Collection of various small independent plugins/modules
   {
     "echasnovski/mini.nvim",
     config = function()
       require("mini.pairs").setup()
-      -- require("mini.statusline").setup()
+      -- Simple and easy statusline.
+      --  You could remove this setup call if you don't like it,
+      --  and try some other statusline plugin
+      local statusline = require "mini.statusline"
+      -- set use_icons to true if you have a Nerd Font
+      statusline.setup { use_icons = vim.g.have_nerd_font }
+
+      -- You can configure sections in the statusline by overriding their
+      -- default behavior. For example, here we set the section for
+      -- cursor location to LINE:COLUMN
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_location = function()
+        return "%2l:%-2v"
+      end
     end,
   },
 
