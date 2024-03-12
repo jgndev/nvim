@@ -744,6 +744,7 @@ require("lazy").setup {
     config = function()
       require("kanagawa").setup {
         colors = {
+          palette = {},
           theme = {
             all = {
               ui = {
