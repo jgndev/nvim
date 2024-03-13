@@ -341,7 +341,38 @@ require("lazy").setup {
       local servers = {
         ansiblels = {},
         bashls = {},
-        clangd = {},
+        clangd = {
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern(
+              "Makefile",
+              "configure.ac",
+              "configure.in",
+              "config.h.in",
+              "meson.build",
+              "meson_options.txt",
+              "build.ninja"
+            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(fname) or require("lspconfig.util").find_git_ancestor(
+              fname
+            )
+          end,
+          capabilities = {
+            offsetEncoding = { "utf-16" },
+          },
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+          },
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+          },
+        },
         cssls = {},
         docker_compose_language_service = {},
         dockerls = {},
@@ -603,22 +634,6 @@ require("lazy").setup {
     },
   },
 
-  -- Testing
-  {
-    "nvim-neotest/neotest",
-    optional = true,
-    dependencies = {
-      "nvim-neotest/neotest-go",
-      "rouge8/neotest-rust",
-    },
-    opts = {
-      adapters = {
-        ["neotest-go"] = {},
-        ["neotest-rust"] = {},
-      },
-    },
-  },
-
   -- Completion
   {
     "hrsh7th/nvim-cmp",
@@ -735,16 +750,6 @@ require("lazy").setup {
     end,
   },
 
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    opts = {},
-    config = function()
-      -- vim.cmd.colorscheme "catppuccin-mocha"
-    end,
-  },
-
   -- Comments
   {
     "numToStr/Comment.nvim",
@@ -788,6 +793,7 @@ require("lazy").setup {
         ensure_installed = {
           "bash",
           "c",
+          "cpp",
           "cmake",
           "css",
           "csv",
@@ -877,7 +883,29 @@ require("lazy").setup {
     end,
   },
 
-  -- Go
+  -- [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[
+  --
+  -- Go Configuration
+  --
+  -- ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+  {
+    "nvim-neotest/neotest",
+    optional = true,
+    dependencies = {
+      "nvim-neotest/neotest-go",
+    },
+    opts = {
+      adapters = {
+        ["neotest-go"] = {
+          -- Here we can set options for neotest-go, e.g.
+          -- args = { "-tags=integration" }
+          recursive_run = true,
+        },
+      },
+    },
+  },
+
   {
     "ray-x/go.nvim",
     dependencies = {
@@ -891,81 +919,6 @@ require("lazy").setup {
     event = { "CmdlineEnter" },
     ft = { "go", "gomod" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-  },
-
-  -- Rust
-  {
-    "mrcjkb/rustaceanvim",
-    version = "^4", -- Recommended
-    ft = { "rust" },
-    opts = {
-      server = {
-        on_attach = function(_, bufnr)
-          vim.keymap.set("n", "<leader>cR", function()
-            vim.cmd.RustLsp "codeAction"
-          end, { desc = "Code Action", buffer = bufnr })
-          vim.keymap.set("n", "<leader>dr", function()
-            vim.cmd.RustLsp "debuggables"
-          end, { desc = "Rust debuggables", buffer = bufnr })
-        end,
-        default_settings = {
-          -- rust-analyzer language server configuration
-          ["rust-analyzer"] = {
-            cargo = {
-              allFeatures = true,
-              loadOutDirsFromCheck = true,
-              runBuildScripts = true,
-            },
-            -- Add clippy lints for Rust.
-            checkOnSave = {
-              allFeatures = true,
-              command = "clippy",
-              extraArgs = { "--no-deps" },
-            },
-            procMacro = {
-              enable = true,
-              ignored = {
-                ["async-trait"] = { "async_trait" },
-                ["napi-derive"] = { "napi" },
-                ["async-recursion"] = { "async_recursion" },
-              },
-            },
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      vim.g.rustaceanvim = vim.tbl_deep_extend("force", {}, opts or {})
-    end,
-  },
-
-  {
-    "Saecki/crates.nvim",
-    event = { "BufRead Cargo.toml" },
-    opts = {
-      src = {
-        cmp = { enabled = true },
-      },
-    },
-  },
-
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      {
-        "Saecki/crates.nvim",
-        event = { "BufRead Cargo.toml" },
-        opts = {
-          src = {
-            cmp = { enabled = true },
-          },
-        },
-      },
-    },
-    opts = function(_, opts)
-      opts.sources = opts.sources or {}
-      table.insert(opts.sources, { name = "crates" })
-    end,
   },
 }
 
