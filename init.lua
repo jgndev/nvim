@@ -83,7 +83,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- [[ Keymaps ]]
 -- Move Lines
 vim.keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
 vim.keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
