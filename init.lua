@@ -772,11 +772,7 @@ require("lazy").setup {
     "numToStr/Comment.nvim",
     lazy = false,
     config = function()
-      require("Comment").setup {
-        toggler = {
-          line = "<C-/>",
-        },
-      }
+      require("Comment").setup {}
     end,
   },
 
