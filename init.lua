@@ -83,6 +83,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- [[ Keymaps ]]
+-- Move Lines
+vim.keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+vim.keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+vim.keymap.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+vim.keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+
 -- Setup Lazy
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -764,7 +773,11 @@ require("lazy").setup {
     "numToStr/Comment.nvim",
     lazy = false,
     config = function()
-      require("Comment").setup()
+      require("Comment").setup {
+        toggler = {
+          line = "<C-/>",
+        },
+      }
     end,
   },
 
@@ -777,6 +790,7 @@ require("lazy").setup {
     "echasnovski/mini.nvim",
     config = function()
       require("mini.pairs").setup()
+
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
