@@ -19,11 +19,4 @@ return {
       vim.cmd.colorscheme "kanagawa-wave"
     end,
   },
-
-  -- {
-  --   "luisiacc/gruvbox-baby",
-  --   config = function()
-  --     vim.cmd.colorscheme "gruvbox-baby"
-  --   end,
-  -- },
 }
