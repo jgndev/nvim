@@ -21,11 +21,9 @@ return {
   },
 
   {
-    "sainnhe/gruvbox-material",
+    "luisiacc/gruvbox-baby",
     config = function()
-      vim.cmd.colorscheme "gruvbox-material"
-      vim.cmd.gruvbox_material_background = "hard"
-      vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#fb923c" })
+      vim.cmd.colorscheme "gruvbox-baby"
     end,
   },
 }
