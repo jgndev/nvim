@@ -16,7 +16,15 @@ return {
           },
         },
       }
-      vim.cmd.colorscheme "kanagawa-wave"
+      -- vim.cmd.colorscheme "kanagawa-wave"
+    end,
+  },
+
+  {
+    "sainnhe/gruvbox-material",
+    config = function()
+      vim.cmd.colorscheme "gruvbox-material"
+      vim.cmd.gruvbox_material_background = "hard"
     end,
   },
 }
