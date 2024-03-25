@@ -25,6 +25,7 @@ return {
     config = function()
       vim.cmd.colorscheme "gruvbox-material"
       vim.cmd.gruvbox_material_background = "hard"
+      vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#fb923c" })
     end,
   },
 }
