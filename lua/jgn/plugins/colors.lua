@@ -1,22 +1,29 @@
 return {
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require("kanagawa").setup {
+  --       colors = {
+  --         palette = {},
+  --         theme = {
+  --           all = {
+  --             ui = {
+  --               bg_gutter = "none",
+  --             },
+  --           },
+  --         },
+  --       },
+  --     }
+  --     vim.cmd.colorscheme "kanagawa-wave"
+  --   end,
+  -- },
+
   {
-    "rebelot/kanagawa.nvim",
-    lazy = false,
-    priority = 1000,
+    "luisiacc/gruvbox-baby",
     config = function()
-      require("kanagawa").setup {
-        colors = {
-          palette = {},
-          theme = {
-            all = {
-              ui = {
-                bg_gutter = "none",
-              },
-            },
-          },
-        },
-      }
-      vim.cmd.colorscheme "kanagawa-wave"
+      vim.cmd.colorscheme "gruvbox-baby"
     end,
   },
 }
