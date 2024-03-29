@@ -21,9 +21,9 @@ return {
   -- },
 
   {
-    "luisiacc/gruvbox-baby",
+    "catppuccin/nvim",
     config = function()
-      vim.cmd.colorscheme "gruvbox-baby"
+      vim.cmd.colorscheme "catppuccin-mocha"
     end,
   },
 }
