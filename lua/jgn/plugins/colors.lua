@@ -20,10 +20,18 @@ return {
   --   end,
   -- },
 
+  -- {
+  --   "catppuccin/nvim",
+  --   config = function()
+  -- vim.cmd.colorscheme "catppuccin-mocha"
+  --   end,
+  -- },
+
   {
-    "catppuccin/nvim",
+    "luisiacc/gruvbox-baby",
     config = function()
-      vim.cmd.colorscheme "catppuccin-mocha"
+      vim.g.gruvbox_baby_background_color = "dark"
+      vim.cmd.colorscheme "gruvbox-baby"
     end,
   },
 }
